@@ -89,7 +89,9 @@ class parking_lot:
 
 
     #Init function for Parking_lot. Does not fill values in for the parking_lots
+    #contains a second np array for displaing the reward distribution
     def __init__(self,rows,columns,entrance_column,time_penalty):
+        self.time_penalty = time_penalty
         self.entrance = [0,entrance_column]
         self.rows = rows
         self.columns = columns
@@ -106,9 +108,21 @@ class parking_lot:
             for c in range(self.columns):
 
                 #formulate reward for a slot as a distance from entrance
-                reward = 100 - (abs(r - self.entrance[0]) + abs(c - self.entrance[1]))
-                self.spaces[r][c] = parking_lot(0,0,reward)
+                reward = 100 - 20 * (abs((r-1) - self.entrance[0]) + abs(c - self.entrance[1]))
+                self.spaces[r][c] = parking_lot(0,0,reward,self.time_penalty)
                 self.reward_map[r][c] = reward
+        
+        #removing reward for parking in top row [Pretend top row is a horizontal street only used for driving on]
+        for c in range(self.columns):
+            self.spaces[0][c] = parking_lot(0,0,-100,self.time_penalty)
+            self.spaces[self.rows-1][c] = parking_lot(0,0,-100,self.time_penalty)
+            self.reward_map[0][c] = -100
+            self.reward_map[self.rows-1] = -100
+            
+
+    
+
+
 
     
 
