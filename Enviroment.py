@@ -32,38 +32,45 @@ class parking_lot:
 
 
 
+
+    #The agent stores its own location with row,column and has an action set described below
+    #Consider the sarsa reward formula
+    #Q(S[t],A[t]) = Q(S[t],A[t])+alpha(R[t+1] + Epsilon *Q(S[t+1],A[t+1]) - Q(S[t],A[t]))
+    #Each of the actions functions returns the R[t+1] part of the function
+
     class agent:
-        def __init__(self,rows,columns):
+        def __init__(self,rows,columns,time_penalty):
             self.row = rows
             self.column = columns
+            self.time_penalty = time_penalty
 
 
         # ACTION SET ------------------------------------------------------------------
         def mov_up(self):
             if(self.row != 1):
                 self.row -= 1
-                return 0
-            return 1
+                return self.time_penalty
+            return -100
         
         def mov_down(self):
             if(self.row != parking_lot.rows):
                 self.row += 1
-                return 0
-            return 1
+                return self.time_penalty
+            return -100
         
         def mov_left(self):
             if(self.row == parking_lot.rows or self.rows == 1):
                 if(self.column != 1):
                     self.column -= 1
-                    return 0
-            return 1
+                    return self.time_penalty
+            return -100
 
         def mov_right(self):
             if(self.row == parking_lot.rows or self.rows == 1):
                 if(self.column != parking_lot.columns):
                     self.column += 1
-                    return 0
-            return 1
+                    return self.time_penalty
+            return -100
 
         def park_right(self):
             left,right = parking_lot.spaces[self.row][self.column].get_spots()
@@ -82,13 +89,13 @@ class parking_lot:
 
 
     #Init function for Parking_lot. Does not fill values in for the parking_lots
-    def __init__(self,rows,columns,entrance_column):
+    def __init__(self,rows,columns,entrance_column,time_penalty):
         self.entrance = [0,entrance_column]
         self.rows = rows
         self.columns = columns
         self.spaces = np.empty(shape=[rows,columns],dtype=self.parking_spot)
         self.reward_map = np.zeros(shape=[rows,columns],dtype=float)
-        self.agent_O = self.agent(rows,columns)
+        self.agent_O = self.agent(rows,columns,time_penalty)
 
 
 
