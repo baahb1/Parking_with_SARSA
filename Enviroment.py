@@ -57,6 +57,20 @@ class parking_lot:
             return self.row,self.column,left,right
 
 
+
+        def take_action(self,action):
+            if(action == 0):
+                return self.mov_up(),0
+            if(action == 1):
+                return self.mov_left(),0
+            if(action == 2):
+                return self.mov_down(),0
+            if(action == 3):
+                return self.mov_right(),0
+            if(action == 4):
+                return self.park_left(),0
+            if(action == 5):
+                return self.park_right(),0
         # ACTION SET ------------------------------------------------------------------
         def mov_up(self):
             if(self.row != 1):
@@ -115,6 +129,8 @@ class parking_lot:
         self.agent_map = np.zeros(shape=[rows,columns],dtype=int)
 
         self.agent_map[self.agent_O.row-1][self.agent_O.column-1] = 1
+
+        self.current_state = None
 
 
 

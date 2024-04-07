@@ -1,5 +1,5 @@
 import Enviroment
-import SARSA
+import HTS_SARSA
 import matplotlib.pyplot as plt
 
 def main():
@@ -17,31 +17,33 @@ def main():
     #plt.show()
 
 
-    plt.imshow(parking_lot_O.agent_map,cmap='binary')
-    plt.colorbar()
-    plt.show()
+    #plt.imshow(parking_lot_O.agent_map,cmap='binary')
+    #plt.colorbar()
+    #plt.show()
 
-    print(parking_lot_O.agent_O.mov_left())
-    parking_lot_O.update_agent_state()
+    #print(parking_lot_O.agent_O.mov_left())
+    #parking_lot_O.update_agent_state()
 
 
-    plt.imshow(parking_lot_O.agent_map,cmap='binary')
-    plt.colorbar()
-    plt.show()
+    SARSA_O = HTS_SARSA.SARSA(enviroment=parking_lot_O,step_size =.1,epsilon = .1, rows = 6, columns = 5, discount = 1.0)
 
-    print(parking_lot_O.agent_O.mov_up())
-    parking_lot_O.update_agent_state()
+    action = SARSA_O.agent_start(0)
+    print(action)
+    reward = parking_lot_O.agent_O.take_action(action)
+    print(reward)
+    action = SARSA_O.agent_step(1,reward)
+    print(action)
 
-    plt.imshow(parking_lot_O.agent_map,cmap='binary')
-    plt.colorbar()
-    plt.show()
 
-    print(parking_lot_O.agent_O.park_left())
-    parking_lot_O.update_agent_state()
 
-    plt.imshow(parking_lot_O.agent_map,cmap='binary')
-    plt.colorbar()
-    plt.show()
+    all_reward_sums = {} # Contains sum of rewards during episode
+    all_state_visits = {}
+
+    num_runs = 100 # The number of runs
+    num_episodes = 200 # The number of episodes in each run
+
+    for episode in range(num_episodes):
+        
 
     
 
