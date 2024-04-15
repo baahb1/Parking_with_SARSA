@@ -1,5 +1,7 @@
 import numpy as np
+from tqdm import tqdm
 import Enviroment
+import rl_glue
 class SARSA:
     def __init__(self,enviroment,step_size,epsilon,rows,columns,discount):
         self.step_size = step_size
@@ -67,8 +69,11 @@ class SARSA:
         return self.rand_generator.choice(ties)
     
 
-    def start_SARSA():
-        
+   
+   
+
+
+
         
 
 

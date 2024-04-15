@@ -68,9 +68,18 @@ class parking_lot:
             if(action == 3):
                 return self.mov_right(),0
             if(action == 4):
-                return self.park_left(),0
+                reward = self.park_left()
+                if reward > -100:
+                    return reward,1
+                else:
+                    return reward,0
             if(action == 5):
-                return self.park_right(),0
+                reward =self.park_right()
+                if reward > -100:
+                    return reward,1
+                else:
+                    return reward,0
+            
         # ACTION SET ------------------------------------------------------------------
         def mov_up(self):
             if(self.row != 1):
