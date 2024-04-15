@@ -8,7 +8,7 @@ class SARSA:
         self.epsilon = epsilon
         self.num_actions = 6
         self.discount = discount
-        self.num_states = (rows * columns * 4)
+        self.num_states = (rows * columns)
         self.enviroment = enviroment
 
         self.rand_generator = np.random.RandomState(0)
@@ -18,7 +18,10 @@ class SARSA:
 
     def agent_start(self,observation):
         state = observation
+        #print("obs",observation)
+        #print(np.shape(self.q))
         current_q = self.q[state, :]
+        
         if self.rand_generator.rand() < self.epsilon:
             action = self.rand_generator.randint(self.num_actions)
         else:
@@ -31,6 +34,7 @@ class SARSA:
         return action
     
     def agent_step(self,reward,observation):
+        
         state = observation
         current_q = self.q[state,:]
         if self.rand_generator.rand() < self.epsilon:
@@ -70,7 +74,7 @@ class SARSA:
     
 
    
-   
+
 
 
 

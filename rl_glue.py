@@ -14,9 +14,9 @@ class RLGlue:
         agent_name (string): the name of the module where the Agent class can be found
     """
 
-    def __init__(self, env_class, agent_class):
-        self.environment = env_class()
-        self.agent = agent_class()
+    def __init__(self, env, agent):
+        self.environment = env
+        self.agent = agent
 
         self.total_reward = None
         self.last_action = None
@@ -25,8 +25,8 @@ class RLGlue:
 
     def rl_init(self, agent_init_info={}, env_init_info={}):
         """Initial method called when RLGlue experiment is created"""
-        self.environment.env_init(env_init_info)
-        self.agent.agent_init(agent_init_info)
+        #self.environment.env_init(env_init_info)
+        #self.agent.agent_init(agent_init_info)
 
         self.total_reward = 0.0
         self.num_steps = 0
@@ -42,7 +42,7 @@ class RLGlue:
         self.total_reward = 0.0
         self.num_steps = 1
 
-        last_state = self.environment.env_start()
+        last_state = self.environment.observation(self.environment.agent_O.get_state())
         self.last_action = self.agent.agent_start(last_state)
 
         observation = (last_state, self.last_action)
@@ -127,7 +127,9 @@ class RLGlue:
                 last action, boolean indicating termination
         """
 
-        (reward, last_state, term) = self.environment.env_step(self.last_action)
+        #(reward, last_state, term) = self.environment.agent_O.take_action(self.last_action)
+        (reward, term) = self.environment.agent_O.take_action(self.last_action)
+        last_state = self.environment.observation(self.environment.agent_O.get_state())
 
         self.total_reward += reward;
 
