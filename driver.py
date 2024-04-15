@@ -3,7 +3,7 @@ import HTS_SARSA
 import matplotlib.pyplot as plt
 import numpy as np
 import rl_glue
-
+from tqdm import tqdm
 
 def main():
 
@@ -47,67 +47,54 @@ def main():
     num_runs = 100 # The number of runs
     num_episodes = 200 # The number of episodes in each run
 
-    start_SARSA(parking_lot_O,parking_lot_O.agent_O,environment_parameters,agent_parameters,experiment_parameters)
+    start_SARSA(parking_lot_O,SARSA_O)
 
     
 
     
 
-def start_SARSA(environment, agent, environment_parameters, agent_parameters, experiment_parameters):
-        
-        all_reward_sums = [] # Contains sum of rewards during episode
-        all_state_visits = [] # Contains state visit counts during the last 10 episodes
-        num_runs = 100 # The number of runs
-        num_episodes = 200 # The number of episodes in each run
+def start_SARSA(environment, agent):
+    np.random.seed(0)
 
-        glue = rl_glue(environment,agent)
+    agents = {
+    "Expected Sarsa": agent
+    }
+    env = Enviroment
+    all_reward_sums = {} # Contains sum of rewards during episode
+    all_state_visits = {} # Contains state visit counts during the last 10 episodes
+    agent_info = {"num_actions": 6, "num_states": (agent.rows * agent.columns * 4), "epsilon": 0.1, "step_size": 0.5, "discount": 1.0}
+    env_info = {}
+    num_runs = 100 # The number of runs
+    num_episodes = 200 # The number of episodes in each run
 
-        # save rmsve at the end of each episode
-        agent_rmsve = np.zeros((experiment_parameters["num_runs"],int(experiment_parameters["num_episodes"]/experiment_parameters["episode_eval_frequency"]) + 1))
 
-        # save learned state value at the end of each run
-        agent_state_val = np.zeros((experiment_parameters["num_runs"], environment_parameters["num_states"]))
+    all_reward_sums = []
+    all_state_visits = [] 
 
-        env_info = {"num_states": (environment.rows * environment.columns * 4) ,
-                    "start_state": environment_parameters["start_state"],
-                    "left_terminal_state": environment_parameters["left_terminal_state"],
-                    "right_terminal_state": environment_parameters["right_terminal_state"]}
+    for run in tqdm(range(num_runs)):
+        agent_info["seed"] = run
+        rl_glue = rl_glue(env, agent)
+        rl_glue.rl_init(agent_info, env_info)
 
-        agent_info = {"num_states": (environment.rows * environment.columns * 4),
-                        "num_hidden_layer": agent_parameters["num_hidden_layer"],
-                        "num_hidden_units": agent_parameters["num_hidden_units"],
-                        "step_size": agent_parameters["step_size"],
-                        "discount_factor": environment_parameters["discount_factor"],
-                        "beta_m": agent_parameters["beta_m"],
-                        "beta_v": agent_parameters["beta_v"],
-                        "epsilon": agent_parameters["epsilon"]
-                        }
-        
-    
-experiment_parameters = {
-    "num_runs" : 20,
-    "num_episodes" : 1000,
-    "episode_eval_frequency" : 10 # evaluate every 10 episode
-}
-
-# Environment parameters
-environment_parameters = {
-    "num_states" : 500,
-    "start_state" : 250,
-    "left_terminal_state" : 0,
-    "right_terminal_state" : 501,
-    "discount_factor" : 1.0
-}
-
-# Agent parameters
-agent_parameters = {
-    "num_hidden_layer": 1,
-    "num_hidden_units": 100,
-    "step_size": 0.001,
-    "beta_m": 0.9,
-    "beta_v": 0.999,
-    "epsilon": 0.0001,
-}
+        reward_sums = []
+        state_visits = np.zeros(48)
+        for episode in range(num_episodes):
+            if episode < num_episodes - 10:
+                # Runs an episode
+                rl_glue.rl_episode(10000) 
+            else: 
+                # Runs an episode while keeping track of visited states
+                state, action = rl_glue.rl_start()
+                state_visits[state] += 1
+                is_terminal = False
+                while not is_terminal:
+                    reward, state, action, is_terminal = rl_glue.rl_step()
+                    state_visits[state] += 1
+                
+            reward_sums.append(rl_glue.rl_return())
+            
+        all_reward_sums.append(reward_sums)
+        all_state_visits.append(state_visits)
 
 if __name__ == '__main__':
     main()
