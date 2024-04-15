@@ -14,9 +14,9 @@ class RLGlue:
         agent_name (string): the name of the module where the Agent class can be found
     """
 
-    def __init__(self, env, agent):
-        self.environment = env
-        self.agent = agent
+    def __init__(self, env_class, agent_class):
+        self.environment = env_class()
+        self.agent = agent_class()
 
         self.total_reward = None
         self.last_action = None
@@ -38,6 +38,9 @@ class RLGlue:
         Returns:
             tuple: (state, action)
         """
+        
+        self.total_reward = 0.0
+        self.num_steps = 1
 
         last_state = self.environment.env_start()
         self.last_action = self.agent.agent_start(last_state)
@@ -123,9 +126,8 @@ class RLGlue:
             (float, state, action, Boolean): reward, last state observation,
                 last action, boolean indicating termination
         """
-        last_state = self.agent.get_state()
-        (reward,term) = self.environment.take_action(self.last_action)
 
+        (reward, last_state, term) = self.environment.env_step(self.last_action)
 
         self.total_reward += reward;
 
