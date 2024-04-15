@@ -67,7 +67,7 @@ class SARSA:
         return self.rand_generator.choice(ties)
     
 
-    def start_SARSA():
+    #def start_SARSA():
         
         
 
