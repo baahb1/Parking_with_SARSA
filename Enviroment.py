@@ -34,7 +34,7 @@ class parking_lot:
             self.right_spot = right
     
 
-
+        
 
 
 
@@ -53,8 +53,9 @@ class parking_lot:
 
 
         def get_state(self):
-            left,right = self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_spots()
-            return self.row,self.column,left,right
+            #left,right = self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_spots()
+            return self.row,self.column
+            
 
 
 
@@ -68,9 +69,18 @@ class parking_lot:
             if(action == 3):
                 return self.mov_right(),0
             if(action == 4):
-                return self.park_left(),0
+                reward = self.park_left()
+                if reward > -100:
+                    return reward,1
+                else:
+                    return reward,0
             if(action == 5):
-                return self.park_right(),0
+                reward =self.park_right()
+                if reward > -100:
+                    return reward,1
+                else:
+                    return reward,0
+            
         # ACTION SET ------------------------------------------------------------------
         def mov_up(self):
             if(self.row != 1):
@@ -135,7 +145,9 @@ class parking_lot:
 
 
     
-    
+    def observation(self, state):
+
+            return (state[0]-1) *  self.columns + state[1]-1
 
 
     #GENERATE CAR SPOT DISTRIBUTION
