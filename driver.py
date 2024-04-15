@@ -10,6 +10,8 @@ def main():
     # all the commands to populate the enviroment
     parking_lot_O = Enviroment.parking_lot(6,5,2,-.05)
     parking_lot_O.fill_slots_reward()
+
+    #parking slot seeded 40 slot 60% taken
     seed = [1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1]
     parking_lot_O.fill_spots_with_car_seeded(seed)
 
