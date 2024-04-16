@@ -49,7 +49,7 @@ def start_SARSA(environment, agent):
     env = environment
     all_reward_sums = {} # Contains sum of rewards during episode
     all_state_visits = {} # Contains state visit counts during the last 10 episodes
-    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": 0.5, "discount": 1.0}
+    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": .1, "discount": 1.0}
     env_info = {}
     num_runs = 200 # The number of runs
     num_episodes = 5000 # The number of episodes in each run
@@ -59,12 +59,13 @@ def start_SARSA(environment, agent):
     all_state_visits = [] 
 
     for run in tqdm(range(num_runs)):
+
         agent_info["seed"] = run
         glue = rl_glue.RLGlue(env, agent)
         glue.rl_init(agent_info, env_info)
 
         reward_sums = []
-        state_visits = np.zeros(48)
+        state_visits = np.zeros(agent_info["num_states"])
         for episode in range(num_episodes):
             if episode < num_episodes - 10:
                 # Runs an episode
@@ -84,8 +85,7 @@ def start_SARSA(environment, agent):
         all_state_visits.append(state_visits)
 
 
-        # plot results
-    print(np.mean(all_reward_sums[300]))
+    # plot results
     plt.plot(np.mean( all_reward_sums , axis=0), label="Sarsa")
     plt.xlabel("Episodes")
     plt.ylabel("Sum of\n rewards\n during\n episode",rotation=0, labelpad=40)
