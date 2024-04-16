@@ -27,26 +27,17 @@ def main():
     #plt.show()
 
     #print(parking_lot_O.agent_O.mov_left())
-    #parking_lot_O.update_agent_state()
+    parking_lot_O.update_agent_state()
 
 
-    SARSA_O = HTS_SARSA.SARSA(enviroment=parking_lot_O,step_size =.1,epsilon = .1, rows = 6, columns = 5, discount = 1.0)
-
-    #action = SARSA_O.agent_start(0)
+    SARSA_O = HTS_SARSA.SARSA(enviroment=parking_lot_O,step_size =.1,epsilon = .1, rows = 6, columns = 5, discount = 1.0)    #action = SARSA_O.agent_start(0)
     #print(action)
-    #reward = parking_lot_O.agent_O.take_action(action)
-    
-
-   
-
-
-
+    #reward = parking_lot_O.agent_O.take_action(action
     all_reward_sums = {} # Contains sum of rewards during episode
     all_state_visits = {}
 
     num_runs = 100 # The number of runs
-    num_episodes = 200 # The number of episodes in each run
-
+    num_episodes = 200 # The number of episodes in each runstart_SARSA(parking_lot_O,SARSA_O)
     start_SARSA(parking_lot_O,SARSA_O)
 
     
