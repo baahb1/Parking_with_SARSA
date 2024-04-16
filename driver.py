@@ -33,11 +33,7 @@ def main():
     SARSA_O = HTS_SARSA.SARSA(enviroment=parking_lot_O,step_size =.1,epsilon = .1, rows = 6, columns = 5, discount = 1.0)    #action = SARSA_O.agent_start(0)
     #print(action)
     #reward = parking_lot_O.agent_O.take_action(action
-    all_reward_sums = {} # Contains sum of rewards during episode
-    all_state_visits = {}
 
-    num_runs = 100 # The number of runs
-    num_episodes = 200 # The number of episodes in each runstart_SARSA(parking_lot_O,SARSA_O)
     start_SARSA(parking_lot_O,SARSA_O)
 
     
@@ -55,8 +51,8 @@ def start_SARSA(environment, agent):
     all_state_visits = {} # Contains state visit counts during the last 10 episodes
     agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": 0.5, "discount": 1.0}
     env_info = {}
-    num_runs = 400 # The number of runs
-    num_episodes = 600 # The number of episodes in each run
+    num_runs = 200 # The number of runs
+    num_episodes = 5000 # The number of episodes in each run
 
 
     all_reward_sums = []
