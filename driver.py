@@ -8,7 +8,7 @@ from tqdm import tqdm
 def main():
 
     # all the commands to populate the enviroment
-    parking_lot_O = Enviroment.parking_lot(6,5,2,-.05)
+    parking_lot_O = Enviroment.parking_lot(6,5,2,-0)
     parking_lot_O.fill_slots_reward()
 
     #parking slot seeded 40 slot 60% taken
@@ -49,10 +49,10 @@ def start_SARSA(environment, agent):
     env = environment
     all_reward_sums = {} # Contains sum of rewards during episode
     all_state_visits = {} # Contains state visit counts during the last 10 episodes
-    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": .1, "discount": 1.0}
+    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.05, "step_size": 2.0, "discount": 1.0}
     env_info = {}
-    num_runs = 200 # The number of runs
-    num_episodes = 5000 # The number of episodes in each run
+    num_runs = 1500 # The number of runs
+    num_episodes = 1200 # The number of episodes in each run
 
 
     all_reward_sums = []
@@ -89,7 +89,7 @@ def start_SARSA(environment, agent):
     plt.plot(np.mean( all_reward_sums , axis=0), label="Sarsa")
     plt.xlabel("Episodes")
     plt.ylabel("Sum of\n rewards\n during\n episode",rotation=0, labelpad=40)
-    plt.ylim(-100,100)
+    plt.ylim(0,100)
     plt.legend()
     plt.show()
 

@@ -77,46 +77,46 @@ class parking_lot:
             if(self.row != 1):
                 self.row -= 1
                 return self.time_penalty
-            return -100
+            return (self.time_penalty)
         
         def mov_down(self):
             if(self.row != self.parking_lot_O.get_shape()[0]):
                 self.row += 1
                 return self.time_penalty
-            return -100
+            return (+ self.time_penalty)
         
         def mov_left(self):
             if(self.row == self.parking_lot_O.get_shape()[0] or self.row == 1):
                 if(self.column != 1):
                     self.column -= 1
                     return self.time_penalty
-            return -100
+            return (self.time_penalty)
 
         def mov_right(self):
             if(self.row == self.parking_lot_O.get_shape()[0] or self.row == 1):
                 if(self.column != self.parking_lot_O.get_shape()[1]):
                     self.column += 1
                     return self.time_penalty
-            return -100
+            return (self.time_penalty)
 
         def park_right(self):
             left,right = self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_spots()
             if(right == 0):
                 if(self.get_state()[0] == 1 or self.get_state()[0] == (self.parking_lot_O.columns - 1)):
-                        return -10,1
+                        return self.time_penalty,0
                 return self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_reward(),1
                 
             else:
-                return -10,0
+                return (self.time_penalty),0
             
         def park_left(self):
             left,right = self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_spots()
             if(left == 0):
                 if(self.get_state()[0] == 1 or self.get_state()[0] == (self.parking_lot_O.columns - 1)):
-                        return -10,1
+                        return self.time_penalty,0
                 return self.parking_lot_O.get_spaces()[self.row-1][self.column-1].get_reward(),1
             else:
-                return -10,0
+                return (self.time_penalty),0
 
 
 
