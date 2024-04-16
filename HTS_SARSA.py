@@ -73,16 +73,11 @@ class SARSA:
         return self.rand_generator.choice(ties)
     
 
-<<<<<<< HEAD
-    #def start_SARSA():
-        
-=======
    
 
 
 
 
->>>>>>> a2853756f2c8173336b6ba2f0d99802ccf0dc70c
         
 
 
