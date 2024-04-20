@@ -53,7 +53,7 @@ def start_SARSA(environment, agent):
     env = environment
     all_reward_sums = {} # Contains sum of rewards during episode
     all_state_visits = {} # Contains state visit counts during the last 10 episodes
-    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": 1.5, "discount": 1.0}
+    agent_info = {"num_actions": 6, "num_states": (environment.rows * environment.columns), "epsilon": 0.1, "step_size": .1, "discount": 1.0}
     env_info = {}
     num_runs = 400 # The number of runs
     num_episodes = 600 # The number of episodes in each run
