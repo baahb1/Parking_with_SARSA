@@ -13,7 +13,7 @@ class SARSA:
 
         self.rand_generator = np.random.RandomState(0)
 
-        self.q = np.zeros(shape=(self.num_states,self.num_actions))
+        self.q = np.zeros(shape=(self.num_states,self.num_actions)) 
 
 
     def agent_init(self, agent_init_info):
@@ -39,7 +39,7 @@ class SARSA:
         self.rand_generator = np.random.RandomState(agent_init_info["seed"])
         
         # Create an array for action-value estimates and initialize it to zero.
-        self.q = np.zeros((self.num_states, self.num_actions)) # The array of a    
+        self.q = np.zeros((self.num_states, self.num_actions)) 
 
 
     def agent_start(self,observation):
